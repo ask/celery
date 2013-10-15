@@ -224,6 +224,9 @@ this is convenient if you only intend to use one worker node::
 
     $ celeryd -B
 
+If you run celeryd with the `--concurrency` option, you cannot use `-B`
+because that would in effect run multiple celerybeat processes.
+
 Celerybeat needs to store the last run times of the tasks in a local database
 file (named `celerybeat-schedule` by default), so it needs access to
 write in the current directory, or alternatively you can specify a custom
