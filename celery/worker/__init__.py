@@ -428,6 +428,11 @@ class WorkController(configurated):
                 logger.debug("importing module %s", module)
                 imp(module)
             elif reload:
+                if reloader is not None and hasattr(reloader, 'rsplit'):
+                    m, n = reloader.rsplit('.', 1)
+                    if m in sys.modules and hasattr(sys.modules[m], n):
+                        reloader = getattr(sys.modules[m], n)
+                    assert callable(reloader)
                 logger.debug("reloading module %s", module)
                 reload_from_cwd(sys.modules[module], reloader)
         self.pool.restart()
